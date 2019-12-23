@@ -80,9 +80,9 @@ NAN_METHOD(node_vorbis_block_init) {
 NAN_METHOD(node_vorbis_encode_init_vbr) {
   Nan::HandleScope scope;
   vorbis_info *vi = UnwrapPointer<vorbis_info *>(info[0]);
-  long channels = info[1]->IntegerValue();
-  long rate = info[2]->IntegerValue();
-  float quality = info[3]->NumberValue();
+  long channels = info[1]->IntegerValue(v8::Isolate::GetCurrent()->GetCurrentContext()).ToChecked();
+  long rate = info[2]->IntegerValue(v8::Isolate::GetCurrent()->GetCurrentContext()).ToChecked();
+  float quality = info[3]->NumberValue(v8::Isolate::GetCurrent()->GetCurrentContext()).ToChecked();
   int r = vorbis_encode_init_vbr(vi, channels, rate, quality);
   info.GetReturnValue().Set(Nan::New<Integer>(r));
 }
@@ -182,8 +182,8 @@ NAN_METHOD(node_vorbis_analysis_write) {
 
   vorbis_dsp_state *vd = UnwrapPointer<vorbis_dsp_state *>(info[0]);
   float *buffer = UnwrapPointer<float *>(info[1]);
-  int channels = info[2]->IntegerValue();
-  long samples = info[3]->NumberValue();
+  int channels = info[2]->IntegerValue(v8::Isolate::GetCurrent()->GetCurrentContext()).ToChecked();
+  long samples = info[3]->NumberValue(v8::Isolate::GetCurrent()->GetCurrentContext()).ToChecked();
   Nan::Callback *callback = new Nan::Callback(info[4].As<Function>());
 
   Nan::AsyncQueueWorker(new AnalysisWriteWorker(vd, buffer, channels, samples, callback));
@@ -378,7 +378,7 @@ NAN_METHOD(node_vorbis_synthesis_pcmout) {
   int samples;
   v8::Local<Value> rtn;
   vorbis_dsp_state *vd = UnwrapPointer<vorbis_dsp_state *>(info[0]);
-  int channels = info[1]->Int32Value();
+  int channels = info[1]->Int32Value(v8::Isolate::GetCurrent()->GetCurrentContext()).ToChecked();
 
   samples = vorbis_synthesis_pcmout(vd, &pcm);
 

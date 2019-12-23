@@ -22,11 +22,11 @@
     "buffer-alloc": "^1.1.0",
     "debug": "^2.2.0",
     "nan": "^2.10.0",
-    "ogg": "^1.2.5",
+    "ogg": "git+https://github.com/sandiz/node-ogg.git",
     "readable-stream": "^2.3.6"
   },
   "devDependencies": {
-    "mocha": "^2.5.3"
+    "mocha": "^6.2.2"
   },
   "scripts": {
     "test": "mocha --reporter spec"
